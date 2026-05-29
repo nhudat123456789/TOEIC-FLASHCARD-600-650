@@ -1,0 +1,2089 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>TOEIC Vocabulary Flashcard</title>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXX"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-XXXX');
+</script>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+<style>
+* { 
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+button {
+  touch-action: manipulation;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  margin: 0;
+  color: #0f172a;
+  background:
+    radial-gradient(1200px 600px at 20% 10%, rgba(59,130,246,0.18), transparent 60%),
+    radial-gradient(900px 500px at 90% 20%, rgba(236,72,153,0.14), transparent 55%),
+    radial-gradient(900px 600px at 30% 95%, rgba(34,197,94,0.10), transparent 55%),
+    linear-gradient(180deg, #f8fafc, #eef2ff);
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 36px 24px;
+}
+
+.quiz-box {
+  width: min(1000px, 100%);
+  background: rgba(255,255,255,0.86);
+  border: 1px solid rgba(148,163,184,0.35);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  padding: 40px 40px 32px 40px;
+  border-radius: 24px;
+  box-shadow:
+    0 30px 70px rgba(15, 23, 42, 0.18),
+    0 1px 0 rgba(255,255,255,0.6) inset;
+}
+
+h1 {
+  text-align: center;
+  margin: 2px 0 8px 0;
+  font-size: 28px;
+  letter-spacing: -0.02em;
+}
+
+.subtitle {
+  margin: 0 0 20px 0;
+  text-align: center;
+  color: rgba(15,23,42,0.7);
+  font-size: 14px;
+}
+
+.start-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.section-title {
+  margin-top: 4px;
+  font-weight: 700;
+  color: rgba(15,23,42,0.76);
+  font-size: 14px;
+}
+
+.daily-reminder-box {
+  margin-top: 8px;
+  margin-bottom: 4px;
+  padding: 10px 12px;
+  border-radius: 14px;
+  background: rgba(15,23,42,0.03);
+  border: 1px dashed rgba(148,163,184,0.8);
+  font-size: 13px;
+  color: rgba(15,23,42,0.8);
+}
+
+.daily-line {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.daily-line + .daily-line {
+  margin-top: 4px;
+}
+
+.mode-btn {
+  width: 100%;
+  padding: 14px 16px;
+  margin-top: 12px;
+  border: 1px solid rgba(2,6,23,0.08);
+  border-radius: 14px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  background: linear-gradient(180deg, rgba(37,99,235,0.95), rgba(29,78,216,0.98));
+  color: #fff;
+  box-shadow: 0 10px 24px rgba(37,99,235,0.22);
+  transition: transform 120ms ease, box-shadow 120ms ease, filter 120ms ease;
+}
+
+.mode-btn:nth-child(2) {
+  background: linear-gradient(180deg, rgba(147,51,234,0.92), rgba(109,40,217,0.98));
+  box-shadow: 0 10px 24px rgba(147,51,234,0.18);
+}
+
+.mode-btn:hover { transform: translateY(-1px); filter: brightness(1.02); }
+.mode-btn:active { transform: translateY(0px) scale(0.99); }
+.mode-btn:focus-visible { outline: 3px solid rgba(59,130,246,0.35); outline-offset: 2px; }
+
+.chip-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.chip {
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(148,163,184,0.6);
+  background: rgba(255,255,255,0.85);
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 13px;
+  color: rgba(15,23,42,0.86);
+  transition: transform 120ms ease, background 120ms ease, border-color 120ms ease, box-shadow 120ms ease;
+}
+
+.chip:hover { background: rgba(241,245,249,0.95); transform: translateY(-1px); }
+.chip:active { transform: translateY(0px) scale(0.99); }
+.chip:focus-visible { outline: 3px solid rgba(59,130,246,0.35); outline-offset: 2px; }
+.chip.active {
+  border-color: rgba(59,130,246,0.8);
+  color: #1d4ed8;
+  box-shadow: 0 8px 18px rgba(59,130,246,0.14);
+  background: rgba(239,246,255,0.9);
+}
+
+.meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  margin-bottom: 20px;
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  border-radius: 999px;
+  background: rgba(241,245,249,0.8);
+  border: 1px solid rgba(148,163,184,0.35);
+  color: rgba(15,23,42,0.82);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.flashcard-container {
+  perspective: 1000px;
+  margin: 20px 0;
+}
+
+.flashcard {
+  width: 100%;
+  min-height: 340px;
+  position: relative;
+  touch-action: manipulation;
+  transform-style: preserve-3d;
+  transition: transform 0.6s;
+  cursor: pointer;
+}
+
+.flashcard.flipped {
+  transform: rotateY(180deg);
+}
+
+.flashcard-front,
+.flashcard-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 56px;
+  box-shadow: 0 20px 40px rgba(15, 23, 42, 0.15);
+  border: 1px solid rgba(148,163,184,0.2);
+}
+
+.flashcard-front {
+  background: linear-gradient(135deg, rgba(59,130,246,0.1), rgba(147,51,234,0.1));
+}
+
+.flashcard-back {
+  background: linear-gradient(135deg, rgba(34,197,94,0.1), rgba(59,130,246,0.1));
+  transform: rotateY(180deg);
+}
+
+.card-content {
+  text-align: center;
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1.5;
+  color: #0f172a;
+}
+
+.card-hint {
+  margin-top: 18px;
+  font-size: 15px;
+  color: rgba(15,23,42,0.6);
+  font-weight: 400;
+}
+
+.speaker-row {
+  display: flex;
+  justify-content: center;
+  margin-top: 16px;
+}
+
+.speaker-btn {
+  padding: 10px 18px;
+  border-radius: 12px;
+  border: 1px solid rgba(59,130,246,0.4);
+  background: rgba(239,246,255,0.9);
+  color: #1d4ed8;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 120ms ease, background 120ms ease, box-shadow 120ms ease;
+}
+
+.speaker-btn:hover {
+  background: rgba(219,234,254,0.95);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(59,130,246,0.2);
+}
+
+.speaker-btn:active { transform: translateY(0) scale(0.98); }
+.speaker-btn:focus-visible { outline: 3px solid rgba(59,130,246,0.35); outline-offset: 2px; }
+
+.flashcard-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 24px;
+  justify-content: center;
+}
+
+.action-btn {
+  padding: 12px 24px;
+  border-radius: 14px;
+  border: none;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 120ms ease, box-shadow 120ms ease;
+  flex: 1;
+  max-width: 150px;
+}
+
+.action-btn:hover { transform: translateY(-2px); }
+.action-btn:active { transform: translateY(0px) scale(0.98); }
+
+.btn-known {
+  background: linear-gradient(180deg, rgba(34,197,94,0.95), rgba(22,163,74,0.98));
+  color: #fff;
+  box-shadow: 0 8px 20px rgba(34,197,94,0.25);
+}
+
+.btn-unknown {
+  background: linear-gradient(180deg, rgba(239,68,68,0.95), rgba(220,38,38,0.98));
+  color: #fff;
+  box-shadow: 0 8px 20px rgba(239,68,68,0.25);
+}
+
+.nav-buttons {
+  display: flex;
+  gap: 12px;
+  margin-top: 16px;
+  justify-content: center;
+}
+
+.nav-btn {
+  padding: 10px 20px;
+  border-radius: 12px;
+  border: 1px solid rgba(148,163,184,0.4);
+  background: rgba(255,255,255,0.9);
+  cursor: pointer;
+  font-weight: 600;
+  color: rgba(15,23,42,0.85);
+  transition: transform 120ms ease, background 120ms ease;
+}
+
+.nav-btn:hover {
+  background: rgba(241,245,249,0.95);
+  transform: translateY(-1px);
+}
+
+.nav-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.stats {
+  display: flex;
+  gap: 12px;
+  margin-top: 20px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.stat-item {
+  padding: 8px 16px;
+  border-radius: 12px;
+  background: rgba(241,245,249,0.8);
+  border: 1px solid rgba(148,163,184,0.3);
+  font-size: 13px;
+  font-weight: 600;
+  color: rgba(15,23,42,0.8);
+}
+
+.test-progress-bar {
+  width: 100%;
+  height: 10px;
+  border-radius: 999px;
+  background: rgba(226,232,240,0.9);
+  overflow: hidden;
+  margin: 8px 0 4px 0;
+}
+
+.test-progress-fill {
+  height: 100%;
+  width: 0%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #22c55e, #16a34a);
+  transition: width 180ms ease-out;
+}
+
+.options-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin-top: 28px;
+}
+
+.option-btn {
+  padding: 16px 18px;
+  border-radius: 16px;
+  border: 1px solid rgba(148,163,184,0.5);
+  background: rgba(255,255,255,0.9);
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  color: rgba(15,23,42,0.9);
+  text-align: left;
+  transition: transform 120ms ease, box-shadow 120ms ease, background 120ms ease, border-color 120ms ease;
+}
+
+.option-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(15,23,42,0.15);
+  background: rgba(248,250,252,0.95);
+}
+
+.option-btn:active {
+  transform: translateY(0) scale(0.98);
+}
+
+.option-btn.correct {
+  border-color: rgba(34,197,94,0.7);
+  background: linear-gradient(135deg, rgba(34,197,94,0.1), rgba(22,163,74,0.18));
+  color: #166534;
+}
+
+.option-btn.incorrect {
+  border-color: rgba(239,68,68,0.7);
+  background: linear-gradient(135deg, rgba(239,68,68,0.08), rgba(248,113,113,0.16));
+  color: #991b1b;
+}
+
+.typing-answer-box {
+  margin-top: 24px;
+}
+
+.typing-input {
+  width: 100%;
+  padding: 16px 18px;
+  border-radius: 18px;
+  border: 1px solid rgba(148,163,184,0.6);
+  background: rgba(255,255,255,0.95);
+  font-size: 16px;
+}
+
+.typing-input.correct {
+  border-color: rgba(34,197,94,0.9);
+  background: linear-gradient(135deg, rgba(34,197,94,0.08), rgba(22,163,74,0.12));
+}
+
+.typing-input.incorrect {
+  border-color: rgba(239,68,68,0.85);
+  background: linear-gradient(135deg, rgba(239,68,68,0.05), rgba(248,113,113,0.09));
+}
+
+.typing-actions {
+  margin-top: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.typing-btn {
+  padding: 10px 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(148,163,184,0.55);
+  background: rgba(255,255,255,0.85);
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  color: rgba(15,23,42,0.85);
+  transition: transform 120ms ease, background 120ms ease, border-color 120ms ease;
+}
+
+.typing-btn:hover {
+  background: rgba(241,245,249,0.95);
+  transform: translateY(-1px);
+  border-color: rgba(59,130,246,0.55);
+}
+
+.typing-btn:active {
+  transform: translateY(0) scale(0.98);
+}
+
+.review-list {
+  margin-top: 22px;
+  padding: 50px 18px;
+  border-radius: 18px;
+  background: #f8fafc;
+  border: 1px solid rgba(148,163,184,0.55);
+  max-height: 360px;
+  overflow-y: auto;
+  text-align: left;
+  font-size: 14px;
+}
+
+.review-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 12px 14px;
+  margin-bottom: 8px;
+  border-radius: 12px;
+  background: #ffffff;
+  box-shadow: 0 4px 10px rgba(15,23,42,0.04);
+}
+
+.review-item:last-child {
+  margin-bottom: 0;
+}
+
+.review-term {
+  font-weight: 600;
+  color: rgba(15,23,42,0.9);
+  font-size: 15px;
+}
+
+.review-def {
+  color: rgba(71,85,105,0.9);
+  font-size: 14px;
+}
+
+.result {
+  text-align: center;
+  font-size: 20px;
+  font-weight: 800;
+  margin-top: 12px;
+}
+
+.result-actions {
+  margin-top: 16px;
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+.ghost-btn {
+  padding: 12px 14px;
+  border-radius: 14px;
+  border: 1px solid rgba(148,163,184,0.55);
+  background: rgba(255,255,255,0.7);
+  cursor: pointer;
+  font-weight: 700;
+  color: rgba(15,23,42,0.85);
+  transition: transform 120ms ease, background 120ms ease, border-color 120ms ease;
+}
+
+.ghost-btn:hover { background: rgba(241,245,249,0.9); transform: translateY(-1px); border-color: rgba(59,130,246,0.55); }
+.ghost-btn:active { transform: translateY(0px) scale(0.99); }
+.ghost-btn:focus-visible { outline: 3px solid rgba(59,130,246,0.35); outline-offset: 2px; }
+
+.rating-warning {
+  display: none;
+  background: linear-gradient(135deg, rgba(251,191,36,0.15), rgba(245,158,11,0.15));
+  border: 1px solid rgba(245,158,11,0.5);
+  border-radius: 12px;
+  padding: 12px 16px;
+  margin-top: 16px;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 600;
+  color: #92400e;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Tablet */
+@media (max-width: 768px) {
+  body { padding: 24px 16px; }
+  .quiz-box { padding: 24px; }
+  h1 { font-size: 24px; }
+  
+  .mode-btn {
+    padding: 18px 20px;
+    font-size: 18px;
+  }
+  
+  .chip {
+    padding: 14px 16px;
+    font-size: 15px;
+  }
+  
+  .action-btn {
+    padding: 16px 20px;
+    font-size: 17px;
+    min-height: 56px;
+  }
+  
+  .nav-btn {
+    padding: 14px 18px;
+    font-size: 15px;
+    min-height: 50px;
+  }
+  
+  .ghost-btn {
+    padding: 16px 20px;
+    font-size: 16px;
+    min-height: 52px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+  body { padding: 12px 8px; }
+  .quiz-box { padding: 16px; border-radius: 18px; }
+  h1 { font-size: 22px; }
+  .subtitle { font-size: 13px; margin-bottom: 16px; }
+  
+  .section-title { font-size: 15px; }
+  
+  .mode-btn {
+    padding: 20px 16px;
+    font-size: 18px;
+    border-radius: 16px;
+    margin-top: 10px;
+  }
+  
+  .chip-group {
+    gap: 10px;
+  }
+  
+  .chip {
+    padding: 16px 18px;
+    font-size: 16px;
+    border-radius: 14px;
+    flex: 1;
+    min-width: calc(50% - 10px);
+    text-align: center;
+  }
+  
+  .meta { 
+    gap: 8px; 
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .pill { 
+    padding: 10px 12px; 
+    font-size: 13px;
+    flex: 1;
+    min-width: calc(33% - 8px);
+    text-align: center;
+    justify-content: center;
+  }
+  
+  .flashcard-container {
+    margin: 16px 0;
+  }
+  
+  .flashcard {
+    min-height: 260px;
+  }
+  
+  .flashcard-front, .flashcard-back { 
+    padding: 24px 16px;
+    border-radius: 16px;
+  }
+  
+  .card-content { font-size: 20px; }
+  .card-hint { font-size: 13px; margin-top: 12px; }
+  
+  .flashcard-actions {
+    gap: 10px;
+    margin-top: 20px;
+  }
+  
+  .action-btn {
+    padding: 18px 16px;
+    font-size: 16px;
+    border-radius: 14px;
+    min-height: 60px;
+    max-width: none;
+    flex: 1;
+  }
+  
+  .nav-buttons {
+    gap: 8px;
+    margin-top: 14px;
+    flex-wrap: wrap;
+  }
+  
+  .nav-btn {
+    padding: 16px 14px;
+    font-size: 15px;
+    border-radius: 12px;
+    min-height: 52px;
+    flex: 1;
+    min-width: calc(33% - 8px);
+  }
+  
+  .stats {
+    gap: 8px;
+    margin-top: 16px;
+  }
+  
+  .stat-item {
+    padding: 10px 12px;
+    font-size: 13px;
+    flex: 1;
+    text-align: center;
+  }
+  
+  .rating-warning {
+    padding: 14px 12px;
+    font-size: 14px;
+    margin-top: 14px;
+  }
+  
+  .result {
+    font-size: 18px;
+  }
+  
+  .result-actions {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  
+  .ghost-btn {
+    padding: 18px 20px;
+    font-size: 16px;
+    border-radius: 14px;
+    min-height: 56px;
+    flex: 1;
+    min-width: 140px;
+  }
+}
+
+/* Small mobile */
+@media (max-width: 360px) {
+  body { padding: 8px 6px; }
+  .quiz-box { padding: 14px; border-radius: 16px; }
+  h1 { font-size: 20px; }
+  
+  .mode-btn {
+    padding: 18px 14px;
+    font-size: 16px;
+  }
+  
+  .chip {
+    padding: 14px 12px;
+    font-size: 15px;
+    min-width: calc(50% - 8px);
+  }
+  
+  .pill {
+    padding: 8px 10px;
+    font-size: 12px;
+  }
+  
+  .flashcard {
+    min-height: 220px;
+  }
+  
+  .card-content { font-size: 18px; }
+  
+  .action-btn {
+    padding: 16px 12px;
+    font-size: 15px;
+    min-height: 54px;
+  }
+  
+  .nav-btn {
+    padding: 14px 10px;
+    font-size: 14px;
+    min-height: 48px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="quiz-box">
+  <h1>TOEIC Vocabulary Flashcard</h1>
+  <p class="subtitle">Lật thẻ để xem nghĩa, đánh giá mức độ nhớ từ vựng của bạn</p>
+
+  <div id="start" class="start-panel">
+    <div class="daily-reminder-box" id="dailyReminderBox">
+      <div class="daily-line" id="dailyStreakLine">🔔 Bắt đầu chuỗi học hằng ngày hôm nay nhé!</div>
+      <div class="daily-line" id="dailyDueLine">⏳ Đang tính số thẻ đến hạn ôn...</div>
+    </div>
+
+    <div class="section-title">Chọn kiểu học</div>
+    <div class="chip-group" id="studyTypeGroup">
+      <button class="chip active" onclick="setStudyType(this, 'flash')">Flashcard</button>
+      <button class="chip" onclick="setStudyType(this, 'test')">Test mode</button>
+    </div>
+
+    <div class="section-title" style="margin-top:12px;">Chọn hướng</div>
+    <button class="mode-btn" onclick="startFlashcard(1)">English → Vietnamese</button>
+    <button class="mode-btn" onclick="startFlashcard(2)">Vietnamese → English</button>
+
+    <div class="section-title" style="margin-top:12px;">Chọn số lượng thẻ</div>
+    <div class="chip-group" id="difficultyGroup">
+      <button class="chip chip-count active" onclick="setCardCount(this, 20)">20 thẻ</button>
+      <button class="chip chip-count" onclick="setCardCount(this, 50)">50 thẻ</button>
+      <button class="chip chip-count" onclick="setCardCount(this, 100)">100 thẻ</button>
+      <button class="chip chip-count" onclick="setCardCount(this, -1)">Tất cả</button>
+    </div>
+  </div>
+
+  <div id="flashcard" style="display:none;">
+    <div class="meta">
+      <div class="pill" id="counter">Thẻ 1/20</div>
+      <div class="pill" id="knownCount">✅ Đã biết: 0</div>
+      <div class="pill" id="unknownCount">❌ Chưa biết: 0</div>
+    </div>
+
+    <div class="flashcard-container">
+      <div class="flashcard" id="card" onclick="flipCard()">
+        <div class="flashcard-front">
+          <div>
+            <div class="card-content" id="frontText"></div>
+            <div class="card-hint">Click để lật thẻ</div>
+          </div>
+        </div>
+        <div class="flashcard-back">
+          <div>
+            <div class="card-content" id="backText"></div>
+            <div class="card-hint">Click để lật lại</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="speaker-row">
+      <button type="button" class="speaker-btn" id="speakerBtn" onclick="playPronunciation()" title="Nghe phát âm tiếng Anh">🔊 Nghe phát âm</button>
+    </div>
+
+    <div class="flashcard-actions">
+      <button class="action-btn btn-known" onclick="markKnown()">✅ Đã biết</button>
+      <button class="action-btn btn-unknown" onclick="markUnknown()">❌ Chưa biết</button>
+    </div>
+
+    <div class="nav-buttons">
+      <button class="nav-btn" id="prevBtn" onclick="prevCard()">← Trước</button>
+      <button class="nav-btn" onclick="shuffleCards()">🔀 Xáo trộn</button>
+      <button class="nav-btn" id="nextBtn" onclick="goToNextCard()">Tiếp →</button>
+    </div>
+
+    <div class="rating-warning" id="ratingWarning">
+      ⚠️ Vui lòng bấm "Đã biết" hoặc "Chưa biết" để qua thẻ tiếp theo!
+    </div>
+
+    <div class="stats">
+      <div class="stat-item">Tổng: <span id="totalCards">0</span></div>
+      <div class="stat-item">Đã xem: <span id="viewedCards">0</span></div>
+      <div class="stat-item">Tỷ lệ: <span id="accuracy">0%</span></div>
+    </div>
+  </div>
+
+  <div id="testMode" style="display:none;">
+    <div class="meta">
+      <div class="pill" id="testCounter">Câu 1/20</div>
+      <div class="pill" id="testScore">Đúng: 0</div>
+    </div>
+
+    <div class="test-progress-bar">
+      <div class="test-progress-fill" id="testProgressFill"></div>
+    </div>
+
+    <div class="flashcard-container">
+      <div id="testChoiceContainer" class="flashcard-front" style="position:relative; box-shadow:0 20px 40px rgba(15,23,42,0.15); border-radius:20px;">
+        <div>
+          <div class="card-content" id="testQuestion"></div>
+          <div class="card-hint">Chọn đáp án đúng</div>
+        </div>
+      </div>
+
+      <div id="testTypingContainer" class="flashcard-front" style="position:relative; box-shadow:0 20px 40px rgba(15,23,42,0.15); border-radius:20px; display:none;">
+        <div>
+          <div class="card-content" id="typingQuestion"></div>
+          <div class="card-hint" id="typingHintLabel">Nhập câu trả lời của bạn</div>
+          <div class="typing-answer-box">
+            <input id="typingInput" class="typing-input" type="text" placeholder="Nhập đáp án..." onkeydown="handleTypingKey(event)">
+            <div class="typing-actions">
+              <button type="button" class="typing-btn" onclick="dontKnowAnswer()">Bạn không biết?</button>
+              <button type="button" class="typing-btn" onclick="submitTypingAnswer()">Trả lời</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="inlineReviewBox" class="review-list" style="display:none;"></div>
+    <div style="margin-top:10px; text-align:center;">
+      <button type="button" id="inlineReviewContinue" class="typing-btn" style="display:none;" onclick="continueAfterReview()">Tiếp tục làm bài</button>
+    </div>
+
+    <div id="optionsGrid" class="options-grid">
+      <button class="option-btn" id="option0" onclick="selectOption(0)"></button>
+      <button class="option-btn" id="option1" onclick="selectOption(1)"></button>
+      <button class="option-btn" id="option2" onclick="selectOption(2)"></button>
+      <button class="option-btn" id="option3" onclick="selectOption(3)"></button>
+    </div>
+  </div>
+
+  <div class="result" id="result"></div>
+  <div class="result-actions" id="resultActions" style="display:none;">
+    <button class="ghost-btn" id="continueBtn" onclick="continueFlashcards()" style="display:none;">Tiếp tục học</button>
+    <button class="ghost-btn" id="restartBtn" onclick="resetToHome()" style="display:none;">Chơi lại</button>
+  </div>
+</div>
+
+<script>
+const vocab = [
+  // MINITEST
+  { "en": "Bush/ shrub (n)", "vi": "Bụi cây/ bụi rậm" },
+  { "en": "Potted plant", "vi": "Chậu cây" },
+  { "en": "Flower pot/ flower bed", "vi": "Chậu hoa/ bồn hoa" },
+  { "en": "Branch (n)", "vi": "Nhánh cây" },
+  { "en": "Shadow/ shade", "vi": "Bóng mát" },
+  { "en": "Mow the lawn", "vi": "Cắt cỏ" },
+  { "en": "Meadow (n)", "vi": "Đồng cỏ" },
+  { "en": "Rake the leaves", "vi": "Cào lá" },
+  { "en": "Terrace (n)", "vi": "Thềm, sân hiên" },
+  { "en": "Fence (n)", "vi": "Hàng rào" },
+  { "en": "Merchandise supplies/ stock (n)", "vi": "Hàng hoá" },
+  { "en": "Light bulb/ light fixture", "vi": "Bóng đèn/ đèn chiếu sáng" },
+  { "en": "Hook/ hanger (n)", "vi": "Móc treo/ cái móc" },
+  { "en": "Bulletin board", "vi": "Bảng thông báo" },
+  { "en": "Mount/ attach/ suspend (v)", "vi": "Gắn/ đính lên" },
+  { "en": "Roll >< unroll (v)", "vi": "Cuộn lại >< trải ra" },
+  { "en": "Scrub (v)", "vi": "Chà, cọ rửa" },
+  { "en": "Tile (n)", "vi": "Gạch lát sàn" },
+  { "en": "Rug/ carpet (n)", "vi": "Tấm thảm" },
+  { "en": "Expansion (n)", "vi": "Mở rộng" },
+  { "en": "Career (n) = job", "vi": "Công việc, sự nghiệp" },
+  { "en": "Publicize (v)", "vi": "Công bố" },
+  { "en": "Entrepreneur (n)", "vi": "Doanh nhân" },
+  { "en": "Adequate/ enough (a)", "vi": "Đầy đủ" },
+  { "en": "Cuisine (n)", "vi": "Ẩm thực" },
+  { "en": "Close - closure (v-n)", "vi": "Đóng cửa" },
+  { "en": "One-of-a-kind = unique (a)", "vi": "Độc nhất vô nhị" },
+  { "en": "Board of directors", "vi": "HĐQT" },
+  { "en": "Negotiation (n)", "vi": "Cuộc đàm phán" },
+  { "en": "Exhibition/ showcase (n)", "vi": "Buổi triển lãm" },
+  { "en": "Progress (n)", "vi": "Tiến độ" },
+  { "en": "Duty/ responsibility (n)", "vi": "Nhiệm vụ, trách nhiệm" },
+  { "en": "Finalist (n)", "vi": "Người được chọn" },
+  { "en": "Produce (n)", "vi": "Nông sản" },
+  { "en": "Flu season (n)", "vi": "Mùa cảm cúm" },
+  { "en": "Domestic flight", "vi": "Chuyến bay nội địa" },
+  { "en": "Responsibility", "vi": "Trách nhiệm" },
+  { "en": "Enthusiastic / Eager (adj)", "vi": "Nhiệt huyết / Hăng hái, háo hức" },
+  { "en": "Brake system", "vi": "Hệ thống phanh (thắng)" },
+  { "en": "Skilled tailor", "vi": "Thợ may lành nghề" },
+  { "en": "Limit / Restrict", "vi": "Giới hạn / Hạn chế" },
+  { "en": "Costume (n)", "vi": "Trang phục (hóa trang, lễ hội)" },
+  { "en": "Public – Publicist (a-n)", "vi": "Công chúng - chuyên viên QCao" },
+  { "en": "Have the authority / right", "vi": "Có thẩm quyền / Có quyền" },
+  { "en": "Reinforcement project", "vi": "Dự án gia cố/củng cố" },
+  { "en": "Representative (n)", "vi": "Người đại diện" },
+  { "en": "Accidentally (adv)", "vi": "Tình cờ, vô ý" },
+  { "en": "Scheduling conflict", "vi": "Trùng lịch, xung đột lịch trình" },
+  { "en": "Corporation (n)", "vi": "Tập đoàn, công ty" },
+  { "en": "Emerging technology", "vi": "Công nghệ mới nổi" },
+  { "en": "Handbook / Brochure (n)", "vi": "Sổ tay / Ấn phẩm" },
+  { "en": "Filter (v/n)", "vi": "Bộ lọc / Lọc" },
+  { "en": "Pollute – Pollutant (v-n)", "vi": "Ô nhiễm - Chất gây ô nhiễm" },
+  { "en": "Beneficial to (adj)", "vi": "Có lợi cho" },
+  { "en": "Drainage (n)", "vi": "Hệ thống thoát nước" },
+  { "en": "Auction (n)", "vi": "Buổi đấu giá" },
+  { "en": "Expire - Expiration", "vi": "Hết hạn - Sự hết hạn" },
+  { "en": "Branch (location)", "vi": "Chi nhánh (địa điểm)" },
+  { "en": "Renew - Renewal", "vi": "Gia hạn - Sự gia hạn" },
+  { "en": "Professional-grade (adj)", "vi": "Cấp độ chuyên nghiệp" },
+  { "en": "Professional / Expert", "vi": "Chuyên gia / Người có chuyên môn" },
+  { "en": "Revise = modify (v)", "vi": "Chỉnh sửa" },
+  { "en": "Retreat (n)", "vi": "Chuyến nghỉ dưỡng" },
+  { "en": "Sign up for/ register for/ enroll in", "vi": "Đăng ký" },
+  { "en": "Time sheet", "vi": "Bảng chấm công" },
+  { "en": "Price tag", "vi": "Nhãn giá" },
+  { "en": "Clearance items", "vi": "Hàng xả kho" },
+  { "en": "Warranty (n)", "vi": "Bảo hành" },
+  { "en": "Label (v/n)", "vi": "Dán nhãn (v)" },
+  { "en": "Filing cabinet", "vi": "Tủ đựng tài liệu" },
+  { "en": "Cover a shift", "vi": "Thay ca" },
+  { "en": "Headquarter (n)", "vi": "Trụ sở chính" },
+  { "en": "Advertising campaign", "vi": "Chiến dịch quảng bá" },
+  { "en": "Senior (a)", "vi": "Có thâm niên" },
+  { "en": "Conference/ convention room", "vi": "Phòng hội nghị" },
+  { "en": "Sales figures/ revenue (n)", "vi": "Doanh số" },
+  { "en": "Highlight (n)", "vi": "Tin nổi bật" },
+  { "en": "Productivity – productive (n-a)", "vi": "(có) năng suất" },
+  { "en": "Cafeteria (n)", "vi": "~ canteen" },
+  { "en": "Achieve/attain/ obtain(v)", "vi": "Đạt được" },
+  { "en": "Nominate – nomination (v-n)", "vi": "Đề cử" },
+  { "en": "Renew – renewal (v-n)", "vi": "Gia hạn" },
+  { "en": "Lease/ contract/ agreement (n)", "vi": "Thoả thuận/ HĐ" },
+  { "en": "Brochure (n)", "vi": "Sách hướng dẫn" },
+  { "en": "Eye-catching (a)", "vi": "Bắt mắt/ hấp dẫn" },
+  { "en": "Durable (a)", "vi": "Bền bỉ" },
+  { "en": "Fitting room", "vi": "Phòng thử đồ" },
+  { "en": "Certificate (n)", "vi": "Chứng chỉ" },
+  { "en": "Floral arrangement", "vi": "Cắm hoa" },
+  { "en": "Pursue a career", "vi": "Theo đuổi sự nghiệp" },
+  { "en": "Handout (n)", "vi": "material/document paperwork/ record" },
+  { "en": "Register – registration (n-v)", "vi": "Đăng ký" },
+  { "en": "Professional development", "vi": "Phát triển sự nghiệp" },
+  { "en": "Budget surplus", "vi": "Thăng dư ngân sách" },
+  { "en": "Accommodation (n)", "vi": "Chỗ ở" },
+  { "en": "Scheduling conflict", "vi": "Trùng lịch" },
+  { "en": "Malfunction (v/n)", "vi": "= break down" },
+  { "en": "Database (n)", "vi": "Cơ sở dữ liệu" },
+  { "en": "Research - researcher", "vi": "Nghiên cứu – nhà NC" },
+  { "en": "Appreciation (n)", "vi": "Cảm kích" },
+  { "en": "Drawing (n)", "vi": "Vòng quay số" },
+  { "en": "Confidential (a)", "vi": "Bảo mật" },
+  { "en": "Inspection policy", "vi": "Chính sách kiểm tra" },
+  { "en": "Defect/ fault (n)", "vi": "= mistake/ error" },
+  { "en": "Maintenance (n)", "vi": "Bảo trì" },
+  { "en": "Enclosed (a)", "vi": "= attached" },
+  { "en": "Warehouse (n)", "vi": "Nhà kho" },
+  { "en": "Historic site", "vi": "khu di tích" },
+  { "en": "Fabric (n)", "vi": "Vải" },
+  { "en": "Financial asset", "vi": "Tài sản" },
+  { "en": "Payroll department", "vi": "Phòng biên chế (lương)" },
+  { "en": "Approach (v)", "vi": "Tiếp cận, đến gần" },
+  { "en": "Advertising campaign", "vi": "Chiến dịch quảng bá" },
+  { "en": "Patron (n)", "vi": "Khách quen" },
+{en:"on air" , vi:"trực tiếp trên sóng"}
+];
+
+let mode, currentIndex = 0;
+let cardCount = 20;
+let currentCards = [];
+let knownCount = 0;
+let unknownCount = 0;
+let viewedCards = new Set();
+let ratedCards = new Set(); // Theo dõi các thẻ đã được đánh giá
+let milestoneShown = 0;
+let studyType = "flash"; // 'flash' | 'test'
+
+// Biến cho Test mode
+let testQuestions = [];
+let testIndex = 0;
+let testCorrect = 0;
+let testDirection = 1;
+let testAnswered = false;
+// question type sẽ được chọn tự động theo chu kỳ 7-1-4
+
+// --- Lưu tiến trình & SRS trong localStorage ---
+const STORAGE_KEY = "toeicFlashcardsProgress_v1";
+const SRS_INTERVALS = [1, 2, 4, 7, 15, 30]; // ngày cho mỗi cấp độ ghi nhớ
+let progress = loadProgress();
+
+function loadProgress() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) {
+      return {
+        cards: {},
+        streak: { current: 0, best: 0, lastStudyDate: null },
+      };
+    }
+    const data = JSON.parse(raw);
+    if (!data.cards) data.cards = {};
+    if (!data.streak) data.streak = { current: 0, best: 0, lastStudyDate: null };
+    return data;
+  } catch (e) {
+    return {
+      cards: {},
+      streak: { current: 0, best: 0, lastStudyDate: null },
+    };
+  }
+}
+
+function saveProgress() {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(progress));
+  } catch (e) {
+    // bỏ qua lỗi lưu (ví dụ chế độ ẩn danh)
+  }
+}
+
+function getTodayString() {
+  const d = new Date();
+  return d.toISOString().slice(0, 10);
+}
+
+function addDays(dateStr, days) {
+  const d = new Date(dateStr + "T00:00:00");
+  d.setDate(d.getDate() + days);
+  return d.toISOString().slice(0, 10);
+}
+
+function daysBetween(fromStr, toStr) {
+  const a = new Date(fromStr + "T00:00:00");
+  const b = new Date(toStr + "T00:00:00");
+  const diffMs = b - a;
+  return Math.floor(diffMs / (1000 * 60 * 60 * 24));
+}
+
+function scheduleCard(card, wasKnown) {
+  if (!card || typeof card.idx !== "number") return;
+  const id = String(card.idx);
+  const today = getTodayString();
+  let info = progress.cards[id] || { level: 0, nextReview: today };
+
+  if (wasKnown) {
+    info.level = Math.min((info.level || 0) + 1, SRS_INTERVALS.length - 1);
+  } else {
+    info.level = 0;
+  }
+
+  const interval = SRS_INTERVALS[info.level] || 1;
+  info.nextReview = addDays(today, interval);
+  info.lastAnswer = today;
+  info.lastResult = wasKnown ? "known" : "unknown";
+  progress.cards[id] = info;
+  saveProgress();
+}
+
+function updateStreakOnStudy() {
+  const today = getTodayString();
+  const streak = progress.streak || (progress.streak = { current: 0, best: 0, lastStudyDate: null });
+
+  if (streak.lastStudyDate === today) {
+    return; // đã tính streak cho hôm nay
+  }
+
+  if (!streak.lastStudyDate) {
+    streak.current = 1;
+  } else {
+    const diff = daysBetween(streak.lastStudyDate, today);
+    if (diff === 1) {
+      streak.current = (streak.current || 0) + 1;
+    } else if (diff > 1) {
+      streak.current = 1;
+    }
+  }
+
+  streak.best = Math.max(streak.best || 0, streak.current || 0);
+  streak.lastStudyDate = today;
+  progress.streak = streak;
+  saveProgress();
+  renderDailyReminder();
+}
+
+function countDueCards() {
+  const today = getTodayString();
+  let due = 0;
+
+  for (let i = 0; i < vocab.length; i++) {
+    const id = String(i);
+    const info = progress.cards[id];
+    if (!info || !info.nextReview || info.nextReview <= today) {
+      due++;
+    }
+  }
+  return { due, total: vocab.length };
+}
+
+function renderDailyReminder() {
+  const streakLine = document.getElementById("dailyStreakLine");
+  const dueLine = document.getElementById("dailyDueLine");
+  if (!streakLine || !dueLine) return;
+
+  const streak = progress.streak || { current: 0, best: 0, lastStudyDate: null };
+  if (!streak.lastStudyDate) {
+    streakLine.textContent = "🔔 Bắt đầu chuỗi học hằng ngày hôm nay nhé!";
+  } else {
+    streakLine.textContent = `🔔 Chuỗi ngày học: ${streak.current || 0} ngày (kỷ lục: ${streak.best || 0})`;
+  }
+
+  const { due, total } = countDueCards();
+  if (due > 0) {
+    dueLine.textContent = `⏳ Hôm nay có ${due} thẻ đến hạn ôn (trong tổng ${total}).`;
+  } else {
+    dueLine.textContent = "✅ Hôm nay không còn thẻ đến hạn. Bạn có thể ôn lại tự do.";
+  }
+}
+
+function buildSessionCards() {
+  const today = getTodayString();
+  const due = [];
+  const later = [];
+
+  for (let i = 0; i < vocab.length; i++) {
+    const base = vocab[i];
+    const card = { ...base, idx: i };
+    const info = progress.cards[String(i)];
+
+    if (!info || !info.nextReview || info.nextReview <= today) {
+      due.push(card);
+    } else {
+      later.push(card);
+    }
+  }
+
+  let pool;
+  if (due.length > 0) {
+    // Ưu tiên thẻ đến hạn trước
+    pool = shuffle(due).concat(shuffle(later));
+  } else {
+    pool = shuffle(due.concat(later));
+  }
+
+  if (cardCount === -1) {
+    return pool;
+  }
+  return pool.slice(0, Math.min(cardCount, pool.length));
+}
+
+window.addEventListener("load", renderDailyReminder);
+
+function setCardCount(el, count) {
+  cardCount = count;
+  document.querySelectorAll("#difficultyGroup .chip-count").forEach(c => c.classList.remove("active"));
+  el.classList.add("active");
+}
+
+function setStudyType(el, type) {
+  studyType = type;
+  document.querySelectorAll("#studyTypeGroup .chip").forEach(c => c.classList.remove("active"));
+  el.classList.add("active");
+}
+
+function startFlashcard(m) {
+  if (studyType === "test") {
+    startTestMode(m);
+    return;
+  }
+
+  mode = m;
+  currentIndex = 0;
+  knownCount = 0;
+  unknownCount = 0;
+  viewedCards.clear();
+  ratedCards.clear(); // Reset danh sách thẻ đã đánh giá
+  milestoneShown = 0;
+
+  // Tạo danh sách thẻ (ưu tiên thẻ đến hạn theo SRS)
+  currentCards = buildSessionCards();
+
+  document.getElementById("start").style.display = "none";
+  document.getElementById("flashcard").style.display = "block";
+  document.getElementById("testMode").style.display = "none";
+  document.getElementById("result").innerHTML = "";
+  document.getElementById("resultActions").style.display = "none";
+  document.getElementById("continueBtn").style.display = "none";
+  document.getElementById("restartBtn").style.display = "none";
+
+  // Ẩn các nút đánh giá & thống kê trong chế độ flashcard đơn giản
+  document.querySelector(".flashcard-actions").style.display = "none";
+  document.getElementById("knownCount").style.display = "none";
+  document.getElementById("unknownCount").style.display = "none";
+  document.querySelector(".stats").style.display = "none";
+  document.getElementById("ratingWarning").style.display = "none";
+
+  showCard();
+}
+
+function resetToHome() {
+  document.getElementById("flashcard").style.display = "none";
+  document.getElementById("testMode").style.display = "none";
+  document.getElementById("start").style.display = "block";
+  document.getElementById("result").innerHTML = "";
+  document.getElementById("resultActions").style.display = "none";
+  document.getElementById("continueBtn").style.display = "none";
+  document.getElementById("restartBtn").style.display = "none";
+}
+
+function showCard() {
+  if (currentCards.length === 0) {
+    showResult();
+    return;
+  }
+
+  const card = currentCards[currentIndex];
+  const cardElement = document.getElementById("card");
+  cardElement.classList.remove("flipped");
+
+  if (mode === 1) {
+    document.getElementById("frontText").innerText = card.en;
+    document.getElementById("backText").innerText = card.vi;
+  } else {
+    document.getElementById("frontText").innerText = card.vi;
+    document.getElementById("backText").innerText = card.en;
+  }
+
+  updateStats();
+  updateNavButtons();
+}
+
+function playPronunciation() {
+  if (!currentCards.length || currentIndex >= currentCards.length) return;
+  const card = currentCards[currentIndex];
+  const textToSpeak = card.en;
+  if (!textToSpeak) return;
+
+  var canSpeak = typeof window.speechSynthesis !== "undefined"
+    && typeof window.speechSynthesis.speak === "function";
+  if (canSpeak) {
+    try {
+      window.speechSynthesis.cancel();
+      var u = new SpeechSynthesisUtterance(textToSpeak);
+      u.lang = "en-US";
+      u.rate = 0.92;
+      window.speechSynthesis.speak(u);
+    } catch (e) {
+      canSpeak = false;
+    }
+  }
+  if (!canSpeak) {
+    alert("Zalo / trình duyệt trong app không hỗ trợ phát âm.\n\nĐể nghe đầy đủ: hãy copy link trang này và dán lên Chrome hoặc Edge để mở.");
+    var copyFirst = confirm("Bấm OK để copy link (sau đó dán vào Chrome/Edge để nghe phát âm).\n\nBấm Hủy để mở Google Translate nghe tạm từ \"" + textToSpeak + "\".");
+    if (copyFirst) {
+      try {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(window.location.href);
+          alert("Đã copy link! Dán vào Chrome hoặc Edge để mở và nghe phát âm.");
+        } else {
+          prompt("Copy link bên dưới và dán vào Chrome/Edge:", window.location.href);
+        }
+      } catch (e) {
+        prompt("Copy link bên dưới và dán vào Chrome/Edge:", window.location.href);
+      }
+    } else {
+      window.open("https://gentle-snickerdoodle-b94d62.netlify.app/" + encodeURIComponent(textToSpeak), "_blank");
+    }
+  }
+}
+
+function flipCard() {
+  const cardElement = document.getElementById("card");
+  cardElement.classList.toggle("flipped");
+  
+  if (!viewedCards.has(currentIndex)) {
+    viewedCards.add(currentIndex);
+    updateStats();
+  }
+}
+
+function markKnown() {
+  // Chỉ tính nếu thẻ chưa được đánh giá
+  if (!ratedCards.has(currentIndex)) {
+    knownCount++;
+    ratedCards.add(currentIndex);
+    const card = currentCards[currentIndex];
+    scheduleCard(card, true);
+    updateStreakOnStudy();
+  }
+  hideRatingWarning();
+  updateStats();
+  nextCard();
+}
+
+function markUnknown() {
+  // Chỉ tính nếu thẻ chưa được đánh giá
+  if (!ratedCards.has(currentIndex)) {
+    unknownCount++;
+    ratedCards.add(currentIndex);
+    const card = currentCards[currentIndex];
+    scheduleCard(card, false);
+    updateStreakOnStudy();
+  }
+  hideRatingWarning();
+  updateStats();
+  nextCard();
+}
+
+function nextCard() {
+  currentIndex++;
+  if (currentIndex >= currentCards.length) {
+    // Nếu đã đạt mốc 5/5 rồi thì không cần hiện thêm kết quả chung nữa
+    if (milestoneShown >= 5) return;
+    showResult();
+  } else {
+    showCard();
+  }
+}
+
+// Hàm cho nút "Tiếp →" - kiểm tra đã đánh giá chưa
+function goToNextCard() {
+  if (studyType !== "flash") {
+    if (!ratedCards.has(currentIndex)) {
+      showRatingWarning();
+      return;
+    }
+    hideRatingWarning();
+  }
+  nextCard();
+}
+
+function showRatingWarning() {
+  const warning = document.getElementById("ratingWarning");
+  warning.style.display = "block";
+  // Tự động ẩn sau 3 giây
+  setTimeout(() => {
+    warning.style.display = "none";
+  }, 3000);
+}
+
+function hideRatingWarning() {
+  const warning = document.getElementById("ratingWarning");
+  warning.style.display = "none";
+}
+
+function prevCard() {
+  if (currentIndex > 0) {
+    currentIndex--;
+    hideRatingWarning();
+    showCard();
+  }
+}
+
+function shuffleCards() {
+  currentCards = shuffle([...currentCards]);
+  currentIndex = 0;
+  // Reset lại khi xáo trộn vì thứ tự thay đổi
+  knownCount = 0;
+  unknownCount = 0;
+  ratedCards.clear();
+  viewedCards.clear();
+  hideRatingWarning();
+  showCard();
+}
+
+function updateStats() {
+  // Hiển thị trạng thái đánh giá của thẻ hiện tại
+  const ratedStatus = ratedCards.has(currentIndex) ? " ✓" : "";
+  document.getElementById("counter").innerText = `Thẻ ${currentIndex + 1}/${currentCards.length}${ratedStatus}`;
+  document.getElementById("knownCount").innerText = `✅ Đã biết: ${knownCount}`;
+  document.getElementById("unknownCount").innerText = `❌ Chưa biết: ${unknownCount}`;
+  document.getElementById("totalCards").innerText = currentCards.length;
+  document.getElementById("viewedCards").innerText = viewedCards.size;
+  
+  const total = knownCount + unknownCount;
+  const accuracy = total > 0 ? Math.round((knownCount / total) * 100) : 0;
+  document.getElementById("accuracy").innerText = `${accuracy}%`;
+}
+
+function checkMilestone() {
+  const totalCards = currentCards.length;
+  if (!totalCards) return;
+
+  // Dải mốc dựa trên SỐ CÂU CHƯA BIẾT / tổng số thẻ
+  // Ví dụ 20 thẻ:
+  //  - 1: chưa biết ≥17  (>= 85%)
+  //  - 2: 13–16          (65–80%)
+  //  - 3: 9–12           (45–60%)
+  //  - 4: 5–8            (25–40%)
+  const unknownRatio = unknownCount / totalCards;
+  const percentKnown = Math.round((knownCount / totalCards) * 100);
+  const resultEl = document.getElementById("result");
+
+  if (unknownRatio >= 0.85 && milestoneShown < 1) {
+    document.getElementById("flashcard").style.display = "none";
+    resultEl.innerHTML = `
+      <div style="margin-bottom: 4px; font-size: 16px; font-weight: 700;">Tỉ lệ nhớ hiện tại: ${percentKnown}%</div>
+      <div style="font-size: 14px; color: rgba(15,23,42,0.7); margin-bottom: 8px;">
+        Đã biết: ${knownCount} | Chưa biết: ${unknownCount}
+      </div>
+      <img src="01.jpg" alt="01" style="max-width:260px; width:100%; border-radius:16px; margin-top:8px; box-shadow:0 10px 30px rgba(15,23,42,0.25);" />
+      <div style="margin-top: 8px; font-size: 14px; color: rgba(15,23,42,0.8);">
+        E làm gì vậy, e tấu hề à :)))))
+      </div>
+    `;
+    document.getElementById("resultActions").style.display = "flex";
+    document.getElementById("continueBtn").style.display = "inline-block";
+    document.getElementById("restartBtn").style.display = "none";
+    milestoneShown = 1;
+  } else if (unknownRatio >= 0.65 && milestoneShown < 2) {
+    document.getElementById("flashcard").style.display = "none";
+    resultEl.innerHTML = `
+      <div style="margin-bottom: 4px; font-size: 16px; font-weight: 700;">Tỉ lệ nhớ hiện tại: ${percentKnown}%</div>
+      <div style="font-size: 14px; color: rgba(15,23,42,0.7); margin-bottom: 8px;">
+        Đã biết: ${knownCount} | Chưa biết: ${unknownCount}
+      </div>
+      <img src="02.gif" alt="02" style="max-width:260px; width:100%; border-radius:16px; margin-top:8px; box-shadow:0 10px 30px rgba(15,23,42,0.25);" />
+      <div style="margin-top: 8px; font-size: 14px; color: rgba(15,23,42,0.8);">
+        Anh nhắc elm.
+      </div>
+    `;
+    document.getElementById("resultActions").style.display = "flex";
+    document.getElementById("continueBtn").style.display = "inline-block";
+    document.getElementById("restartBtn").style.display = "none";
+    milestoneShown = 2;
+  } else if (unknownRatio >= 0.45 && milestoneShown < 3) {
+    document.getElementById("flashcard").style.display = "none";
+    resultEl.innerHTML = `
+      <div style="margin-bottom: 4px; font-size: 16px; font-weight: 700;">Tỉ lệ nhớ hiện tại: ${percentKnown}%</div>
+      <div style="font-size: 14px; color: rgba(15,23,42,0.7); margin-bottom: 8px;">
+        Đã biết: ${knownCount} | Chưa biết: ${unknownCount}
+      </div>
+      <video src="03.mp4" controls style="max-width:260px; width:100%; border-radius:16px; margin-top:8px; box-shadow:0 10px 30px rgba(15,23,42,0.25);"></video>
+      <div style="margin-top: 8px; font-size: 14px; color: rgba(15,23,42,0.8);">
+        Cũng tạm, làm tiếp đi elm, anh hóng tiếp.
+      </div>
+    `;
+    document.getElementById("resultActions").style.display = "flex";
+    document.getElementById("continueBtn").style.display = "inline-block";
+    document.getElementById("restartBtn").style.display = "none";
+    milestoneShown = 3;
+  } else if (unknownRatio >= 0.25 && milestoneShown < 4) {
+    document.getElementById("flashcard").style.display = "none";
+    resultEl.innerHTML = `
+      <div style="margin-bottom: 4px; font-size: 16px; font-weight: 700;">Tỉ lệ nhớ hiện tại: ${percentKnown}%</div>
+      <div style="font-size: 14px; color: rgba(15,23,42,0.7); margin-bottom: 8px;">
+        Đã biết: ${knownCount} | Chưa biết: ${unknownCount}
+      </div>
+      <img src="04.jpg" alt="04" style="max-width:260px; width:100%; border-radius:16px; margin-top:8px; box-shadow:0 10px 30px rgba(15,23,42,0.25);" />
+      <div style="margin-top: 8px; font-size: 14px; color: rgba(15,23,42,0.8);">
+        Cố lên nữa sốp, sắp được rồi!
+      </div>
+    `;
+    document.getElementById("resultActions").style.display = "flex";
+    document.getElementById("continueBtn").style.display = "inline-block";
+    document.getElementById("restartBtn").style.display = "none";
+    milestoneShown = 4;
+  } else if ((knownCount + unknownCount === totalCards) && unknownCount <= 3 && milestoneShown < 5) {
+    // Mốc cuối: PHẢI làm hết thẻ và số câu CHƯA BIẾT <= 3
+    document.getElementById("flashcard").style.display = "none";
+    resultEl.innerHTML = `
+      <div style="margin-bottom: 8px; font-size: 18px; font-weight: 800;">🎯 Kết quả</div>
+      <div style="font-size: 16px; font-weight: 600; color: rgba(15,23,42,0.7); margin-top: 4px;">
+        Đã biết: ${knownCount} | Chưa biết: ${unknownCount}<br>
+        Tỉ lệ nhớ trên bộ hiện tại: ${percentKnown}%
+      </div>
+      <img src="05.jpg" alt="05" style="max-width:260px; width:100%; border-radius:16px; margin-top:12px; box-shadow:0 10px 30px rgba(15,23,42,0.25);" />
+      <div style="margin-top: 8px; font-size: 14px; color: rgba(15,23,42,0.8);">
+        Đúng là mấy con vợ của anh giỏi vl (nhắn a Đạt để a donate 10k 🐧 )
+      </div>
+    `;
+    document.getElementById("resultActions").style.display = "flex";
+    document.getElementById("continueBtn").style.display = "none";
+    document.getElementById("restartBtn").style.display = "inline-block";
+    milestoneShown = 5;
+  }
+}
+
+function continueFlashcards() {
+  document.getElementById("flashcard").style.display = "block";
+  document.getElementById("result").innerHTML = "";
+  document.getElementById("resultActions").style.display = "none";
+  document.getElementById("continueBtn").style.display = "none";
+}
+
+function updateNavButtons() {
+  document.getElementById("prevBtn").disabled = currentIndex === 0;
+  document.getElementById("nextBtn").disabled = currentIndex >= currentCards.length - 1;
+}
+
+function showResult() {
+  // Chỉ dùng cho chế độ flashcard cũ có đánh giá
+  document.getElementById("flashcard").style.display = "none";
+
+  const totalCards = currentCards.length || (knownCount + unknownCount);
+  const unknownRatio = totalCards ? unknownCount / totalCards : 0;
+  const percentKnown = totalCards ? Math.round((knownCount / totalCards) * 100) : 0;
+  const resultEl = document.getElementById("result");
+
+  let html = "";
+
+  if (unknownRatio >= 0.85) {
+    // Tệ nhất: chưa biết rất nhiều
+    html = `
+      <div style="margin-bottom: 4px; font-size: 16px; font-weight: 700;">Tỉ lệ nhớ hiện tại: ${percentKnown}%</div>
+      <div style="font-size: 14px; color: rgba(15,23,42,0.7); margin-bottom: 8px;">
+        Đã biết: ${knownCount} | Chưa biết: ${unknownCount}
+      </div>
+      <img src="01.jpg" alt="01" style="max-width:260px; width:100%; border-radius:16px; margin-top:8px; box-shadow:0 10px 30px rgba(15,23,42,0.25);" />
+      <div style="margin-top: 8px; font-size: 14px; color: rgba(15,23,42,0.8);">
+        E làm gì vậy, e tấu hề à :))))
+        Không sao, làm lại vòng nữa là lên trình liền 
+      </div>
+    `;
+  } else if (unknownRatio >= 0.65) {
+    html = `
+      <div style="margin-bottom: 4px; font-size: 16px; font-weight: 700;">Tỉ lệ nhớ hiện tại: ${percentKnown}%</div>
+      <div style="font-size: 14px; color: rgba(15,23,42,0.7); margin-bottom: 8px;">
+        Đã biết: ${knownCount} | Chưa biết: ${unknownCount}
+      </div>
+      <img src="02.gif" alt="02" style="max-width:260px; width:100%; border-radius:16px; margin-top:8px; box-shadow:0 10px 30px rgba(15,23,42,0.25);" />
+      <div style="margin-top: 8px; font-size: 14px; color: rgba(15,23,42,0.8);">
+        Anh nhắc elm.
+      </div>
+    `;
+  } else if (unknownRatio >= 0.45) {
+    html = `
+      <div style="margin-bottom: 4px; font-size: 16px; font-weight: 700;">Tỉ lệ nhớ hiện tại: ${percentKnown}%</div>
+      <div style="font-size: 14px; color: rgba(15,23,42,0.7); margin-bottom: 8px;">
+        Đã biết: ${knownCount} | Chưa biết: ${unknownCount}
+      </div>
+      <img src="033.gif" controls style="max-width:260px; width:100%; border-radius:16px; margin-top:8px; box-shadow:0 10px 30px rgba(15,23,42,0.25);"></img>
+      <div style="margin-top: 8px; font-size: 14px; color: rgba(15,23,42,0.8);">
+        Cũng tạm, làm tiếp đi elm, anh hóng tiếp.
+      </div>
+    `;
+  } else if (unknownRatio >= 0.25) {
+    html = `
+      <div style="margin-bottom: 4px; font-size: 16px; font-weight: 700;">Tỉ lệ nhớ hiện tại: ${percentKnown}%</div>
+      <div style="font-size: 14px; color: rgba(15,23,42,0.7); margin-bottom: 8px;">
+        Đã biết: ${knownCount} | Chưa biết: ${unknownCount}
+      </div>
+      <img src="04.jpg" alt="04" style="max-width:260px; width:100%; border-radius:16px; margin-top:8px; box-shadow:0 10px 30px rgba(15,23,42,0.25);" />
+      <div style="margin-top: 8px; font-size: 14px; color: rgba(15,23,42,0.8);">
+        Cố lên nữa sốp, sắp được rồi!
+      </div>
+    `;
+  } else {
+    // Tốt nhất: chưa biết rất ít (<= ~3 trên tổng số thẻ)
+    html = `
+      <div style="margin-bottom: 8px; font-size: 18px; font-weight: 800;">🎯 Kết quả</div>
+      <div style="font-size: 16px; font-weight: 600; color: rgba(15,23,42,0.7); margin-top: 4px;">
+        Đã biết: ${knownCount} | Chưa biết: ${unknownCount}<br>
+        Tỉ lệ nhớ trên bộ hiện tại: ${percentKnown}%
+      </div>
+      <img src="05.jpg" alt="05" style="max-width:260px; width:100%; border-radius:16px; margin-top:12px; box-shadow:0 10px 30px rgba(15,23,42,0.25);" />
+      <div style="margin-top: 8px; font-size: 14px; color: rgba(15,23,42,0.8);">
+        Đúng là mấy con vợ của anh giỏi vl (nhắn a Đạt để a donate 10k 🐧 )
+      </div>
+    `;
+  }
+
+  resultEl.innerHTML = html;
+  document.getElementById("resultActions").style.display = "flex";
+  document.getElementById("continueBtn").style.display = "none";
+  document.getElementById("restartBtn").style.display = "inline-block";
+}
+
+function startTestMode(direction) {
+  mode = direction;
+  testDirection = direction;
+  testIndex = 0;
+  testCorrect = 0;
+  testAnswered = false;
+
+  currentCards = buildSessionCards();
+  testQuestions = buildTestQuestions();
+
+  document.getElementById("start").style.display = "none";
+  document.getElementById("flashcard").style.display = "none";
+  document.getElementById("testMode").style.display = "block";
+  document.getElementById("result").innerHTML = "";
+  document.getElementById("resultActions").style.display = "none";
+  document.getElementById("continueBtn").style.display = "none";
+  document.getElementById("restartBtn").style.display = "none";
+
+  const progressFill = document.getElementById("testProgressFill");
+  if (progressFill) progressFill.style.width = "0%";
+
+  renderTestQuestion();
+}
+
+function buildTestQuestions() {
+  const questions = [];
+  const pool = [...currentCards];
+
+  // Chia theo block 7 (trắc nghiệm) + 1 (review) + 4 (gõ lại từ đã học)
+  for (let start = 0; start < pool.length; start += 7) {
+    const blockCards = pool.slice(start, start + 7);
+    if (!blockCards.length) break;
+
+    // 7 câu trắc nghiệm từ blockCards
+    for (let idx = 0; idx < blockCards.length; idx++) {
+      const card = blockCards[idx];
+      const allOthers = pool.filter((c) => c !== card);
+      const wrongOptions = shuffle(allOthers).slice(0, 3);
+
+      let questionText, correctText, wrongTexts;
+      if (testDirection === 1) {
+        // Hỏi nghĩa tiếng Việt, trả lời tiếng Anh
+        questionText = card.vi;
+        correctText = card.en;
+        wrongTexts = wrongOptions.map(o => o.en);
+      } else {
+        // Hỏi tiếng Anh, trả lời nghĩa tiếng Việt
+        questionText = card.en;
+        correctText = card.vi;
+        wrongTexts = wrongOptions.map(o => o.vi);
+      }
+
+      const options = shuffle([correctText, ...wrongTexts]);
+      const correctIndex = options.indexOf(correctText);
+
+      questions.push({
+        kind: "choice",
+        card,
+        questionText,
+        options,
+        correctIndex,
+        answerText: correctText
+      });
+    }
+
+    // 1 câu tổng hợp cho block hiện tại
+    questions.push({
+      kind: "review",
+      blockCards: blockCards,
+      questionText: "Thuật ngữ đã học trong vòng này"
+    });
+
+    // 4 câu gõ chữ, chọn ngẫu nhiên từ blockCards
+    const typingTargets = shuffle(blockCards).slice(0, Math.min(4, blockCards.length));
+    typingTargets.forEach((card) => {
+      let questionText, answerText;
+      if (testDirection === 1) {
+        // Hỏi nghĩa tiếng Việt, gõ lại tiếng Anh (ví dụ: "hấp dẫn" -> "appealing")
+        questionText = card.vi;
+        answerText = card.en;
+      } else {
+        // Hỏi tiếng Anh, gõ lại nghĩa tiếng Việt
+        questionText = card.en;
+        answerText = card.vi;
+      }
+
+      questions.push({
+        kind: "typing",
+        card,
+        questionText,
+        answerText
+      });
+    });
+  }
+
+  return questions;
+}
+
+function renderTestQuestion() {
+  if (!testQuestions.length || testIndex >= testQuestions.length) {
+    showTestResult();
+    return;
+  }
+
+  const q = testQuestions[testIndex];
+  testAnswered = false;
+
+  const progressFill = document.getElementById("testProgressFill");
+  if (progressFill) {
+    const pct = ((testIndex) / testQuestions.length) * 100;
+    progressFill.style.width = `${pct}%`;
+  }
+
+  document.getElementById("testQuestion").innerText = q.questionText || "";
+  document.getElementById("testCounter").innerText = `Câu ${testIndex + 1}/${testQuestions.length}`;
+  document.getElementById("testScore").innerText = `Đúng: ${testCorrect}`;
+
+  const choiceContainer = document.getElementById("testChoiceContainer");
+  const typingContainer = document.getElementById("testTypingContainer");
+  const optionsGrid = document.getElementById("optionsGrid");
+  const typingInput = document.getElementById("typingInput");
+  const typingQuestion = document.getElementById("typingQuestion");
+  const typingHintLabel = document.getElementById("typingHintLabel");
+  const inlineReviewBox = document.getElementById("inlineReviewBox");
+  const inlineReviewContinue = document.getElementById("inlineReviewContinue");
+
+  if (inlineReviewBox) {
+    inlineReviewBox.style.display = "none";
+    inlineReviewBox.innerHTML = "";
+  }
+  if (inlineReviewContinue) {
+    inlineReviewContinue.style.display = "none";
+  }
+
+  if (q.kind === "review") {
+    // Màn hình tổng hợp sau mỗi cụm câu – ẩn hẳn thẻ tím phía trên để đỡ chiếm chỗ
+    if (choiceContainer) choiceContainer.style.display = "none";
+    if (optionsGrid) optionsGrid.style.display = "none";
+    if (typingContainer) typingContainer.style.display = "none";
+
+    if (inlineReviewBox) {
+      const items = [];
+      (q.blockCards || []).forEach((card) => {
+        const term = testDirection === 1 ? card.en : card.vi;
+        const def = testDirection === 1 ? card.vi : card.en;
+        const safeTerm = (term || "").replace(/"/g, "&quot;");
+        items.push(
+          `<div class="review-item">
+            <div class="review-term">${term}</div>
+            <div class="review-def">${def}</div>
+            <button type="button" class="typing-btn" onclick="speakWord(&quot;${safeTerm}&quot;)">🔊</button>
+          </div>`
+        );
+      });
+      inlineReviewBox.innerHTML = `
+        <div style="font-weight:800; font-size:16px; margin-bottom:10px;">Thuật ngữ đã học trong vòng này</div>
+        ${items.join("")}
+      `;
+      inlineReviewBox.style.display = "block";
+    }
+
+    if (inlineReviewContinue) {
+      inlineReviewContinue.style.display = "inline-block";
+    }
+
+    return;
+  }
+
+  if (q.kind === "typing") {
+    if (choiceContainer) choiceContainer.style.display = "none";
+    if (optionsGrid) optionsGrid.style.display = "none";
+    if (typingContainer) typingContainer.style.display = "flex";
+
+    if (typingQuestion) typingQuestion.innerText = q.questionText;
+    if (typingHintLabel) {
+      typingHintLabel.textContent =
+        testDirection === 1 ? "Nhập Tiếng Anh" : "Nhập nghĩa Tiếng Việt";
+    }
+    if (typingInput) {
+      typingInput.value = "";
+      typingInput.classList.remove("correct", "incorrect");
+      typingInput.focus();
+    }
+  } else {
+    if (choiceContainer) choiceContainer.style.display = "flex";
+    if (optionsGrid) optionsGrid.style.display = "grid";
+    if (typingContainer) typingContainer.style.display = "none";
+
+    for (let i = 0; i < 4; i++) {
+      const btn = document.getElementById(`option${i}`);
+      btn.disabled = false;
+      btn.classList.remove("correct", "incorrect");
+      btn.innerText = q.options[i] || "";
+    }
+  }
+}
+
+function selectOption(index) {
+  if (testAnswered) return;
+  testAnswered = true;
+
+  const q = testQuestions[testIndex];
+  const buttons = [
+    document.getElementById("option0"),
+    document.getElementById("option1"),
+    document.getElementById("option2"),
+    document.getElementById("option3"),
+  ];
+
+  buttons.forEach((btn, i) => {
+    if (i === q.correctIndex) {
+      btn.classList.add("correct");
+    }
+    if (i === index && i !== q.correctIndex) {
+      btn.classList.add("incorrect");
+    }
+    btn.disabled = true;
+  });
+
+  if (index === q.correctIndex) {
+    testCorrect++;
+    playCorrectSound();
+  }
+
+  setTimeout(() => {
+    testIndex++;
+    if (testIndex >= testQuestions.length) {
+      showTestResult();
+    } else {
+      renderTestQuestion();
+    }
+  }, 800);
+}
+
+function playCorrectSound() {
+  try {
+    const AudioCtx = window.AudioContext || window.webkitAudioContext;
+    if (!AudioCtx) return;
+    const ctx = new AudioCtx();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+
+    osc.type = "triangle";
+    osc.frequency.value = 880;
+    gain.gain.setValueAtTime(0.12, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.12);
+
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+
+    osc.start();
+    osc.stop(ctx.currentTime + 0.15);
+  } catch (e) {
+    // nếu không hỗ trợ audio thì thôi, không cần xử lý
+  }
+}
+
+function speakWord(text) {
+  if (!text) return;
+  try {
+    if (window.speechSynthesis && typeof window.speechSynthesis.speak === "function") {
+      window.speechSynthesis.cancel();
+      const u = new SpeechSynthesisUtterance(text);
+      u.lang = "en-US";
+      u.rate = 0.95;
+      window.speechSynthesis.speak(u);
+    }
+  } catch (e) {
+    // bỏ qua nếu không hỗ trợ
+  }
+}
+
+function normalizeAnswer(text) {
+  return text
+    .toLowerCase()
+    .replace(/[\.\,\!\?\;]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function submitTypingAnswer() {
+  if (testAnswered) return;
+  const inputEl = document.getElementById("typingInput");
+  if (!inputEl) return;
+
+  const userRaw = inputEl.value || "";
+  if (!userRaw.trim()) return;
+
+  const q = testQuestions[testIndex];
+  const correctRaw = q.answerText || "";
+
+  const userNorm = normalizeAnswer(userRaw);
+  const correctVariants = correctRaw
+    .split(/[\/,]/)
+    .map((s) => normalizeAnswer(s))
+    .filter(Boolean);
+
+  const isCorrect = correctVariants.some((v) => v && userNorm === v);
+
+  testAnswered = true;
+
+  if (isCorrect) {
+    testCorrect++;
+    inputEl.classList.remove("incorrect");
+    inputEl.classList.add("correct");
+    playCorrectSound();
+  } else {
+    inputEl.classList.remove("correct");
+    inputEl.classList.add("incorrect");
+  }
+
+  setTimeout(() => {
+    testIndex++;
+    if (testIndex >= testQuestions.length) {
+      showTestResult();
+    } else {
+      renderTestQuestion();
+    }
+  }, 900);
+}
+
+function dontKnowAnswer() {
+  if (testAnswered) return;
+  testAnswered = true;
+  const inputEl = document.getElementById("typingInput");
+  if (inputEl) {
+    const q = testQuestions[testIndex];
+    inputEl.value = q.answerText || "";
+    inputEl.classList.remove("correct");
+    inputEl.classList.add("incorrect");
+  }
+
+  setTimeout(() => {
+    testIndex++;
+    if (testIndex >= testQuestions.length) {
+      showTestResult();
+    } else {
+      renderTestQuestion();
+    }
+  }, 900);
+}
+
+function showTypingHint() {
+  const inputEl = document.getElementById("typingInput");
+  if (!inputEl) return;
+  const q = testQuestions[testIndex];
+  const answer = (q && q.answerText) || "";
+  if (!answer) return;
+
+  // gợi ý: hiện vài ký tự đầu
+  const trimmed = answer.trim();
+  const hintLength = Math.min(3, trimmed.length);
+  const prefix = trimmed.slice(0, hintLength);
+  const current = inputEl.value || "";
+  if (!current.startsWith(prefix)) {
+    inputEl.value = prefix;
+  }
+  inputEl.focus();
+}
+
+function handleTypingKey(event) {
+  if (event.key === "Enter") {
+    event.preventDefault();
+    submitTypingAnswer();
+  }
+}
+
+function continueAfterReview() {
+  // Được gọi khi đang ở màn hình tổng hợp trong chu kỳ 7–1–4
+  const inlineReviewBox = document.getElementById("inlineReviewBox");
+  const inlineReviewContinue = document.getElementById("inlineReviewContinue");
+  if (inlineReviewBox) {
+    inlineReviewBox.style.display = "none";
+    inlineReviewBox.innerHTML = "";
+  }
+  if (inlineReviewContinue) {
+    inlineReviewContinue.style.display = "none";
+  }
+
+  // chuyển sang câu tiếp theo trong bài test
+  testIndex++;
+  if (testIndex >= testQuestions.length) {
+    showTestResult();
+  } else {
+    renderTestQuestion();
+  }
+}
+
+function showTestResult() {
+  document.getElementById("testMode").style.display = "none";
+
+  const totalCards = testQuestions.length || 0;
+  const unknownCountTest = totalCards - testCorrect;
+  const unknownRatio = totalCards ? unknownCountTest / totalCards : 0;
+  const percentKnown = totalCards ? Math.round((testCorrect / totalCards) * 100) : 0;
+  const resultEl = document.getElementById("result");
+
+  let html = "";
+
+  if (unknownRatio >= 0.85) {
+    html = `
+      <div style="margin-bottom: 4px; font-size: 16px; font-weight: 700;">Tỉ lệ đúng: ${percentKnown}%</div>
+      <div style="font-size: 14px; color: rgba(15,23,42,0.7); margin-bottom: 8px;">
+        Đúng: ${testCorrect} | Sai: ${unknownCountTest}
+      </div>
+      <img src="01.jpg" alt="01" style="max-width:260px; width:100%; border-radius:16px; margin-top:8px; box-shadow:0 10px 30px rgba(15,23,42,0.25);" />
+      <div style="margin-top: 8px; font-size: 14px; color: rgba(15,23,42,0.8);">
+        E làm gì vậy, e tấu hề à :))))
+        Không sao, làm lại vòng nữa là lên trình liền 
+      </div>
+    `;
+  } else if (unknownRatio >= 0.65) {
+    html = `
+      <div style="margin-bottom: 4px; font-size: 16px; font-weight: 700;">Tỉ lệ đúng: ${percentKnown}%</div>
+      <div style="font-size: 14px; color: rgba(15,23,42,0.7); margin-bottom: 8px;">
+        Đúng: ${testCorrect} | Sai: ${unknownCountTest}
+      </div>
+      <img src="02.gif" alt="02" style="max-width:260px; width:100%; border-radius:16px; margin-top:8px; box-shadow:0 10px 30px rgba(15,23,42,0.25);" />
+      <div style="margin-top: 8px; font-size: 14px; color: rgba(15,23,42,0.8);">
+        Anh nhắc elm.
+      </div>
+    `;
+  } else if (unknownRatio >= 0.45) {
+    html = `
+      <div style="margin-bottom: 4px; font-size: 16px; font-weight: 700;">Tỉ lệ đúng: ${percentKnown}%</div>
+      <div style="font-size: 14px; color: rgba(15,23,42,0.7); margin-bottom: 8px;">
+        Đúng: ${testCorrect} | Sai: ${unknownCountTest}
+      </div>
+      <img src="033.gif" style="max-width:260px; width:100%; border-radius:16px; margin-top:8px; box-shadow:0 10px 30px rgba(15,23,42,0.25);" />
+      <div style="margin-top: 8px; font-size: 14px; color: rgba(15,23,42,0.8);">
+        Cũng tạm, làm tiếp đi elm, anh hóng tiếp.
+      </div>
+    `;
+  } else if (unknownRatio >= 0.25) {
+    html = `
+      <div style="margin-bottom: 4px; font-size: 16px; font-weight: 700;">Tỉ lệ đúng: ${percentKnown}%</div>
+      <div style="font-size: 14px; color: rgba(15,23,42,0.7); margin-bottom: 8px;">
+        Đúng: ${testCorrect} | Sai: ${unknownCountTest}
+      </div>
+      <img src="04.jpg" alt="04" style="max-width:260px; width:100%; border-radius:16px; margin-top:8px; box-shadow:0 10px 30px rgba(15,23,42,0.25);" />
+      <div style="margin-top: 8px; font-size: 14px; color: rgba(15,23,42,0.8);">
+        Cố lên nữa sốp, sắp được rồi!
+      </div>
+    `;
+  } else {
+    html = `
+      <div style="margin-bottom: 8px; font-size: 18px; font-weight: 800;">🎯 Kết quả</div>
+      <div style="font-size: 16px; font-weight: 600; color: rgba(15,23,42,0.7); margin-top: 4px;">
+        Đúng: ${testCorrect} | Sai: ${unknownCountTest}<br>
+        Tỉ lệ đúng trên bộ hiện tại: ${percentKnown}%
+      </div>
+      <img src="05.jpg" alt="05" style="max-width:260px; width:100%; border-radius:16px; margin-top:12px; box-shadow:0 10px 30px rgba(15,23,42,0.25);" />
+      <div style="margin-top: 8px; font-size: 14px; color: rgba(15,23,42,0.8);">
+        Đúng là mấy con vợ của anh giỏi vl (nhắn a Đạt để a donate 10k 🐧 )
+      </div>
+    `;
+  }
+
+  // danh sách ôn lại
+  const reviewItems = currentCards.map((card) => {
+    const term = testDirection === 1 ? card.en : card.vi;
+    const def = testDirection === 1 ? card.vi : card.en;
+    const safeTerm = (term || "").replace(/"/g, "&quot;");
+    return `<div class="review-item"><div class="review-term">${term}</div><div class="review-def">${def}</div><button type="button" class="typing-btn" onclick="speakWord(&quot;${safeTerm}&quot;)">🔊</button></div>`;
+  }).join("");
+
+  const reviewHtml = `
+    <div class="review-list">
+      <div style="font-weight:800; font-size:16px; margin-bottom:10px;">Thuật ngữ đã học trong vòng này</div>
+      ${reviewItems}
+    </div>
+  `;
+
+  resultEl.innerHTML = html + reviewHtml;
+  document.getElementById("resultActions").style.display = "flex";
+  document.getElementById("continueBtn").style.display = "none";
+  document.getElementById("restartBtn").style.display = "inline-block";
+}
+
+function shuffle(a) {
+  const arr = [...a];
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+</script>
+
+</body>
+</html>
