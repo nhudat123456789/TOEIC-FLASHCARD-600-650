@@ -1033,9 +1033,6 @@ const vocab = [
   { "en": "E-COMMERCE/ COMMERCIAL", "vi": "Thương mại điện tử / Quảng cáo (trên TV/Radio)" },
   { "en": "GRADUATE", "vi": "Tốt nghiệp / Người mới tốt nghiệp" },
   { "en": "FEATURE/ CHARACTERISTIC", "vi": "Tính năng (sản phẩm) / Đặc điểm" },
-  { "en": "annual report", "vi": "Báo cáo thường niên" },
-  { "en": "brought", "vi": "Mang lại, đem đến (quá khứ của bring)" },
-  { "en": "type/kind /category /sort", "vi": "Loại, hạng mục, thể loại" },
   { "en": "INITIATIVE", "vi": "Sáng kiến, kế hoạch mới" }
 ];
 
@@ -1301,24 +1298,52 @@ function showCard() {
   updateNavButtons();
 }
 
+function cancelSpeech() {
+  if (window.speechSynthesis) {
+    window.speechSynthesis.cancel();
+  }
+}
+
+function splitTextForSpeech(text) {
+  if (!text) return [];
+  // Một utterance: "Limit / Restrict" → "Limit, Restrict" (TTS tự ngắt nhẹ tại dấu phẩy)
+  const joined = text
+    .replace(/\s*[/\\]\s*/g, ", ")
+    .replace(/\s+/g, " ")
+    .trim();
+  return joined ? [joined] : [];
+}
+
+function speakText(text, options) {
+  const opts = options || {};
+  const lang = opts.lang || "en-US";
+  const rate = opts.rate != null ? opts.rate : 0.95;
+
+  const parts = splitTextForSpeech(text);
+  if (!parts.length) return false;
+  if (!window.speechSynthesis || typeof window.speechSynthesis.speak !== "function") {
+    return false;
+  }
+
+  cancelSpeech();
+  const u = new SpeechSynthesisUtterance(parts[0]);
+  u.lang = lang;
+  u.rate = rate;
+  window.speechSynthesis.speak(u);
+  return true;
+}
+
 function playPronunciation() {
   if (!currentCards.length || currentIndex >= currentCards.length) return;
   const card = currentCards[currentIndex];
   const textToSpeak = card.en;
   if (!textToSpeak) return;
 
-  var canSpeak = typeof window.speechSynthesis !== "undefined"
-    && typeof window.speechSynthesis.speak === "function";
-  if (canSpeak) {
-    try {
-      window.speechSynthesis.cancel();
-      var u = new SpeechSynthesisUtterance(textToSpeak);
-      u.lang = "en-US";
-      u.rate = 0.92;
-      window.speechSynthesis.speak(u);
-    } catch (e) {
-      canSpeak = false;
-    }
+  var canSpeak = false;
+  try {
+    canSpeak = speakText(textToSpeak, { lang: "en-US", rate: 0.92 });
+  } catch (e) {
+    canSpeak = false;
   }
   if (!canSpeak) {
     alert("Zalo / trình duyệt trong app không hỗ trợ phát âm.\n\nĐể nghe đầy đủ: hãy copy link trang này và dán lên Chrome hoặc Edge để mở.");
@@ -1896,15 +1921,8 @@ function playCorrectSound() {
 }
 
 function speakWord(text) {
-  if (!text) return;
   try {
-    if (window.speechSynthesis && typeof window.speechSynthesis.speak === "function") {
-      window.speechSynthesis.cancel();
-      const u = new SpeechSynthesisUtterance(text);
-      u.lang = "en-US";
-      u.rate = 0.95;
-      window.speechSynthesis.speak(u);
-    }
+    speakText(text, { lang: "en-US", rate: 0.95 });
   } catch (e) {
     // bỏ qua nếu không hỗ trợ
   }
