@@ -994,7 +994,8 @@ const vocab = [
   { "en": "Approach (v)", "vi": "Tiếp cận, đến gần" },
   { "en": "Advertising campaign", "vi": "Chiến dịch quảng bá" },
   { "en": "Patron (n)", "vi": "Khách quen" },
-  { "en": "Utensil/ tool (n)", "vi": "Dụng cụ" },
+{en:"on air" , vi:"trực tiếp trên sóng"},
+{ "en": "Utensil/ tool (n)", "vi": "Dụng cụ" },
   { "en": "Out of service", "vi": "Ngưng hoạt động" },
   { "en": "Merge - merger (v-n)", "vi": "(sự) xác nhập" },
   { "en": "Relocate/ transfer (v)", "vi": "Di dời" },
@@ -1013,8 +1014,8 @@ const vocab = [
   { "en": "Fulfill a request", "vi": "Thực hiện yêu cầu" },
   { "en": "Sport field (n)", "vi": "Sân thể thao" },
   { "en": "Cost estimate/ Expense report (n.p)", "vi": "Bảng ước tính chi phí" },
-  {en:"on air" , vi:"trực tiếp trên sóng"},
-    { "en": "ENOUGH/ ADEQUATE/ SUFFICIENT", "vi": "Đầy đủ, đáp ứng yêu cầu" },
+  
+  { "en": "ENOUGH/ ADEQUATE/ SUFFICIENT", "vi": "Đầy đủ, đáp ứng yêu cầu" },
   { "en": "AUCTION", "vi": "Buổi đấu giá" },
   { "en": "BRAKE SYSTEM", "vi": "Hệ thống phanh" },
   { "en": "EXPERT/ SPECIALIST", "vi": "Chuyên gia" },
@@ -1032,9 +1033,9 @@ const vocab = [
   { "en": "E-COMMERCE/ COMMERCIAL", "vi": "Thương mại điện tử / Quảng cáo (trên TV/Radio)" },
   { "en": "GRADUATE", "vi": "Tốt nghiệp / Người mới tốt nghiệp" },
   { "en": "FEATURE/ CHARACTERISTIC", "vi": "Tính năng (sản phẩm) / Đặc điểm" },
-  { "en": "type/kind /category /sort", "vi": "Loại, hạng mục, thể loại" },
   { "en": "annual report", "vi": "Báo cáo thường niên" },
-  { "en": "brought", "vi": "Mang lại, đem đến "},
+  { "en": "brought", "vi": "Mang lại, đem đến (quá khứ của bring)" },
+  { "en": "type/kind /category /sort", "vi": "Loại, hạng mục, thể loại" },
   { "en": "INITIATIVE", "vi": "Sáng kiến, kế hoạch mới" }
 ];
 
@@ -1678,15 +1679,15 @@ function buildTestQuestions() {
 
       let questionText, correctText, wrongTexts;
       if (testDirection === 1) {
-        // Hỏi nghĩa tiếng Việt, trả lời tiếng Anh
-        questionText = card.vi;
-        correctText = card.en;
-        wrongTexts = wrongOptions.map(o => o.en);
-      } else {
-        // Hỏi tiếng Anh, trả lời nghĩa tiếng Việt
+        // English → Vietnamese: hỏi tiếng Anh, chọn nghĩa tiếng Việt
         questionText = card.en;
         correctText = card.vi;
         wrongTexts = wrongOptions.map(o => o.vi);
+      } else {
+        // Vietnamese → English: hỏi nghĩa tiếng Việt, chọn tiếng Anh
+        questionText = card.vi;
+        correctText = card.en;
+        wrongTexts = wrongOptions.map(o => o.en);
       }
 
       const options = shuffle([correctText, ...wrongTexts]);
@@ -1714,13 +1715,13 @@ function buildTestQuestions() {
     typingTargets.forEach((card) => {
       let questionText, answerText;
       if (testDirection === 1) {
-        // Hỏi nghĩa tiếng Việt, gõ lại tiếng Anh (ví dụ: "hấp dẫn" -> "appealing")
-        questionText = card.vi;
-        answerText = card.en;
-      } else {
-        // Hỏi tiếng Anh, gõ lại nghĩa tiếng Việt
+        // English → Vietnamese: hỏi tiếng Anh, gõ nghĩa tiếng Việt
         questionText = card.en;
         answerText = card.vi;
+      } else {
+        // Vietnamese → English: hỏi nghĩa tiếng Việt, gõ tiếng Anh
+        questionText = card.vi;
+        answerText = card.en;
       }
 
       questions.push({
@@ -1813,7 +1814,7 @@ function renderTestQuestion() {
     if (typingQuestion) typingQuestion.innerText = q.questionText;
     if (typingHintLabel) {
       typingHintLabel.textContent =
-        testDirection === 1 ? "Nhập Tiếng Anh" : "Nhập nghĩa Tiếng Việt";
+        testDirection === 1 ? "Nhập nghĩa Tiếng Việt" : "Nhập Tiếng Anh";
     }
     if (typingInput) {
       typingInput.value = "";
